@@ -10,6 +10,7 @@ const mongoose = require("mongoose");
 
 // mongo
 const usersRouter_mongo = require("./routes/mongo/users");
+const customersRouter_mongo = require("./routes/mongo/customers");
 
 const app = express();
 
@@ -31,5 +32,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // mongo
 app.use("/mongo", usersRouter_mongo);
+app.use("/mongo", customersRouter_mongo);
 
 module.exports = app;

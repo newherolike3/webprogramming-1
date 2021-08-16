@@ -1,16 +1,23 @@
-const users = require("../../models/mongo/users");
+const customers = require("../../models/mongo/customers");
 // CRUD
 // R-Read อ่านข้อมูล
 exports.index = async (req, res, next) => {
-    let data = await users.find();
+    let data = await customers.find();
     res.status(200).json(data);
 };
 
 // C-Create เขียนข้อมูล เพิ่มข้อมูล
 exports.insert = async (req, res, next) => {
-    let data = new users({
-        username: req.body.username,
-        email: req.body.email
+    let data = new customers({
+        customerID: req.body.customerID,
+        customerTitleName: req.body.customerTitleName,
+        customerFirstName: req.body.customerFirstName,
+        customerLastName: req.body.customerLastName,
+        customerAddress: req.body.customerAddress,
+        customerTel: req.body.customerTel,
+        customerEmail: req.body.customerEmail,
+        customerUsername: req.body.customerUsername,
+        customerPassword: req.body.customerPassword
     });
     data.save();
     res.status(200).json({
@@ -21,18 +28,13 @@ exports.insert = async (req, res, next) => {
 // U-Update แก้ไขข้อมูล
 exports.update = async (req, res, next) => {
 
-    const id = "60ebc223051284187c4191a9";
+    const id = "610770a9bb33d61a5d3baf57";
 
-    const data = {
-        username: "thailand",
-        email: "thai@gmail.com"
-    }
-
-    let update = await users.updateOne(
+    let update = await customers.updateOne(
         { _id: id },
         {
-            username: data.username,
-            email: data.email
+            customerID: "20001",
+            customerFirstName: "อโนทัย"
         }
     );
 
@@ -51,9 +53,9 @@ exports.update = async (req, res, next) => {
 // D-Delete ลบข้อมูล
 exports.delete = async (req, res, next) => {
 
-    const id = "60ebc73ea54dca1ab964633d";
+    const id = "6107702716b276179dd0c609";
 
-    const data = await users.deleteOne(
+    const data = await customers.deleteOne(
         { _id: id }
     );
 
