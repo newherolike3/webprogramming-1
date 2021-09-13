@@ -1,20 +1,18 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-
-    <HelloWorld msg="Home (หน้าหลัก)"/>
-    
+  <div class="container-fluid">
+      <h1>Webprogramming</h1>
+      <h2>มรกต ทองพรหม</h2>
+      <button type="button" class="btn btn-primary">Home</button>
+      <button type="button" class="btn btn-secondary">Secondary</button>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
 export default {
-  name: 'Home',
-  components: {
-    HelloWorld
-  }
+
 }
 </script>
+
+<style>
+
+</style>
