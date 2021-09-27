@@ -14,7 +14,7 @@ exports.insert = async (req, res, next) => {
         password: req.body.password
     });
     data.save();
-    res.status(200).json({
+    res.status(201).json({
         message: "บันทึกข้อมูลเรียบร้อยแล้ว"
     });
 };
@@ -68,4 +68,35 @@ exports.delete = async (req, res, next) => {
         });
     }
 
+};
+
+// Login การตรวจสอบเข้าสู่ระบบ
+exports.login = async (req, res, next) => {
+    // console.log(req.body);
+    // console.log(req.body.username);
+    // console.log(req.body.password);
+
+    // select * from users where username = "eeee" and password = "eeee"
+    let data = await users.find({ $and: [ 
+            { username: req.body.username },
+            { password: req.body.password } 
+        ]});
+
+    if(data.length > 0){
+        // console.log("มีข้อมูล");
+        res.status(200).json({
+            username: data[0].username,
+            email: data[0].email,
+            token: "dsafghjocmmisiohoghikjpdg",
+            status: 1,
+            message: "เข้าสู่ระบบเรียบร้อย"
+        });
+    } else {
+        // console.log("ไม่มีข้อมูล");
+        res.status(200).json({
+            status: 0,
+            message: "ชื่อผู้ใช้ หรือ รหัสผ่านไม่ถูกต้อง"
+        })
+    }
+    
 };

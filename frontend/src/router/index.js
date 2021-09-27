@@ -8,8 +8,7 @@ import Register from "../views/Register.vue"
 
 Vue.use(VueRouter)
 
-const routes = [
-  {
+const routes = [{
     path: '/',
     name: 'Home',
     component: Home
@@ -43,6 +42,41 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
-})
+});
+
+router.beforeEach(async (to, from, next) => {
+  switch (to.name) {
+    case "Home": {
+      // console.log(to.name);
+      const token = localStorage.getItem("token");
+      const status = localStorage.getItem("status");
+      const email = localStorage.getItem("email");
+      const username = localStorage.getItem("username");
+
+      if(token && status === "1" && email && username){
+        next();
+      } else {
+        next({ name: "Login" });
+      }
+
+      break;
+    }
+    case "Login": {
+      // console.log(to.name);
+
+      next();
+      break;
+    }
+    case "Register": {
+      // console.log(to.name);
+
+      next();
+      break;
+    }
+    default: {
+      break;
+    }
+  }
+});
 
 export default router

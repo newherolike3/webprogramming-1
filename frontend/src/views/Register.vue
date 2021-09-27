@@ -57,6 +57,7 @@
  
 <script>
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export default {
   data() {
@@ -70,11 +71,26 @@ export default {
   methods: {
     register() {
       if (this.email.trim() === "") {
-        alert("กรุณากรอกอีเมล");
+        // alert("กรุณากรอกอีเมล");
+        Swal.fire(
+              "คำเตือน",
+              "กรุณากรอกอีเมล",
+              "warning"
+            );
       } else if (this.username.trim() === "") {
-        alert("กรุณากรอกชื่อผู้ใช้");
+        // alert("กรุณากรอกชื่อผู้ใช้");
+        Swal.fire(
+              "คำเตือน",
+              "กรุณากรอกชื่อผู้ใช้",
+              "warning"
+            );
       } else if (this.password.trim() === "") {
-        alert("กรุณากรอกรหัสผ่าน");
+        // alert("กรุณากรอกรหัสผ่าน");
+        Swal.fire(
+              "คำเตือน",
+              "กรุณากรอกรหัสผ่าน",
+              "warning"
+            );
       } else {
 
         if(this.regex.test(this.email)) {
@@ -88,11 +104,28 @@ export default {
                 username: this.username,
                 password: this.password
             }).then(function(res){
-                alert(res.data.message);
+
+                // alert(res.data.message);
+                Swal.fire({
+                  title: 'สำเร็จ',
+                  text: res.data.message,
+                  icon: 'success',
+                  showConfirmButton: false,
+                  showCancelButton: false,
+                  timer: 2000
+                })
+
             });
 
+            this.$router.push({name: "Login"});
+
         } else {
-            alert("คุณกรอกอีเมลไม่ถูกต้อง");
+            // alert("คุณกรอกอีเมลไม่ถูกต้อง");
+            Swal.fire(
+              "คำเตือน",
+              "คุณกรอกอีเมลไม่ถูกต้อง",
+              "warning"
+            );
         }
 
       }
