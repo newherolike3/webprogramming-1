@@ -28,8 +28,8 @@
 
     <main class="container">
       <div class="bg-light p-5 rounded">
-        <h1>Web Programming</h1>
-        <p class="lead">วิชาการบูรณาการการเขียนโปรแกรมและเว็บเทคโนโลยี</p>
+        <h1>Products</h1>
+        <p class="lead">สินค้า</p>
       </div>
     </main>
   </div>

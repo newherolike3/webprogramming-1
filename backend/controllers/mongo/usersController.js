@@ -1,4 +1,6 @@
 const users = require("../../models/mongo/users");
+const bcrypt = require("bcryptjs");
+
 // CRUD
 // R-Read อ่านข้อมูล
 exports.index = async (req, res, next) => {
@@ -77,22 +79,35 @@ exports.login = async (req, res, next) => {
     // console.log(req.body.password);
 
     // select * from users where username = "eeee" and password = "eeee"
-    let data = await users.find({ $and: [ 
-            { username: req.body.username },
-            { password: req.body.password } 
-        ]});
+    // let data = await users.find({ $and: [ 
+    //         { username: req.body.username },
+    //         { password: req.body.password } 
+    //     ]});
+
+    // select * from users where username = "??????"
+    let data = await users.find({ username: req.body.username });
 
     if(data.length > 0){
-        // console.log("มีข้อมูล");
-        res.status(200).json({
-            username: data[0].username,
-            email: data[0].email,
-            token: "dsafghjocmmisiohoghikjpdg",
-            status: 1,
-            message: "เข้าสู่ระบบเรียบร้อย"
-        });
+        bcrypt
+            .compare(req.body.password, data[0].password)
+            .then(async function(check) {
+                if(check){
+                    res.status(200).json({
+                        username: data[0].username,
+                        email: data[0].email,
+                        token: "dsafghjocmmisiohoghikjpdg",
+                        status: 1,
+                        message: "เข้าสู่ระบบเรียบร้อย"
+                    });
+                } else {
+                    res.status(200).json({
+                        status: 0,
+                        message: "ชื่อผู้ใช้ หรือ รหัสผ่านไม่ถูกต้อง"
+                    })
+                }
+            });
+
     } else {
-        // console.log("ไม่มีข้อมูล");
         res.status(200).json({
             status: 0,
             message: "ชื่อผู้ใช้ หรือ รหัสผ่านไม่ถูกต้อง"

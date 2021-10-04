@@ -58,6 +58,7 @@
 <script>
 import axios from "axios";
 import Swal from "sweetalert2";
+import bcrypt from "bcryptjs";
 
 export default {
   data() {
@@ -95,27 +96,39 @@ export default {
 
         if(this.regex.test(this.email)) {
 
-            console.log(this.email);
-            console.log(this.username);
+            // console.log(this.email);
+            // console.log(this.username);
             console.log(this.password);
+            
+            const email = this.email;
+            const username = this.username;
+            const password = this.password;
 
-            axios.post("http://localhost:3000/mongo/users", {
-                email: this.email,
-                username: this.username,
-                password: this.password
-            }).then(function(res){
+            bcrypt.genSalt(10, function(err, salt) {
+                bcrypt.hash(password , salt, function(err, hash) {
+                    // Store hash in your password DB.
+                    console.log(hash);
 
-                // alert(res.data.message);
-                Swal.fire({
-                  title: 'สำเร็จ',
-                  text: res.data.message,
-                  icon: 'success',
-                  showConfirmButton: false,
-                  showCancelButton: false,
-                  timer: 2000
-                })
+                    axios.post("http://localhost:3000/mongo/users", {
+                        email: email,
+                        username: username,
+                        password: hash
+                    }).then(function(res){
+                        // alert(res.data.message);
+                        Swal.fire({
+                          title: 'สำเร็จ',
+                          text: res.data.message,
+                          icon: 'success',
+                          showConfirmButton: false,
+                          showCancelButton: false,
+                          timer: 2000
+                        })
+                    });
 
+                });
             });
+
+            
 
             this.$router.push({name: "Login"});
 
